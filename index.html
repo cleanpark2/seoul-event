@@ -20,7 +20,7 @@
                             green: '#39FF14',
                             bg: '#0B0914',
                             panel: '#151128',
-                            border: '#282048
+                            border: '#282048'
                         }
                     },
                     fontFamily: {
@@ -31,494 +31,194 @@
             }
         }
     </script>
-    <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+KR:wght@400;600;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #0B0914;
-            color: #E2E8F0;
-            background-image: 
-                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 0, 127, 0.4), inset 0 0 15px rgba(255, 0, 127, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(0, 240, 255, 0.7), inset 0 0 25px rgba(0, 240, 255, 0.4); }
         }
-
-        .font-pixel {
-            font-family: 'Press Start 2P', cursive;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
-
-        /* Neon Glow Effects */
-        .neon-text-pink {
-            text-shadow: 0 0 5px #FF007F, 0 0 10px #FF007F, 0 0 20px #FF007F;
+        .arcade-card {
+            background: linear-gradient(135deg, #151128 0%, #1a1435 100%);
+            border: 2px solid #282048;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
         }
-        .neon-text-cyan {
-            text-shadow: 0 0 5px #00F0FF, 0 0 10px #00F0FF, 0 0 20px #00F0FF;
-        }
-        .neon-text-yellow {
-            text-shadow: 0 0 5px #FFE600, 0 0 10px #FFE600, 0 0 20px #FFE600;
-        }
-
-        .neon-border-pink {
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5), inset 0 0 15px rgba(255, 0, 127, 0.2);
-            border-color: #FF007F;
-        }
-        .neon-border-cyan {
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5), inset 0 0 15px rgba(0, 240, 255, 0.2);
+        .arcade-card:hover {
             border-color: #00F0FF;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            transform: translateY(-2px);
         }
-        .neon-border-yellow {
-            box-shadow: 0 0 15px rgba(255, 230, 0, 0.5), inset 0 0 15px rgba(255, 230, 0, 0.2);
-            border-color: #FFE600;
+        .glow-text-pink {
+            text-shadow: 0 0 10px #FF007F, 0 0 20px #FF007F;
         }
-
-        /* CRT Scanline Effect */
-        .scanlines {
-            position: relative;
-            overflow: hidden;
+        .glow-text-cyan {
+            text-shadow: 0 0 10px #00F0FF, 0 0 20px #00F0FF;
         }
-        .scanlines::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px;
-            z-index: 20;
-            pointer-events: none;
+        .floating {
+            animation: float 4s ease-in-out infinite;
         }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0B0914;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #FF007F;
-            border-radius: 2px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00F0FF;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .animate-blink {
-            animation: blink 1s infinite;
-        }
+        /* 커스텀 스크롤바 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0914; }
+        ::-webkit-scrollbar-thumb { background: #282048; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8A2BE2; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-arcade-pink selection:text-white">
+<body class="bg-arcade-bg text-gray-100 min-h-screen font-sans selection:bg-arcade-pink selection:text-white pb-20">
 
-    <!-- Toast Container -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
-
-    <!-- Arcade Header Bar -->
-    <header class="sticky top-0 z-40 bg-arcade-bg/90 backdrop-blur-md border-b border-arcade-pink/40 px-4 lg:px-8 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-lg bg-arcade-pink/20 border-2 border-arcade-pink flex items-center justify-center text-arcade-pink neon-border-pink">
-                    <i class="fa-solid fa-city text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="font-pixel text-xs sm:text-sm text-arcade-cyan neon-text-cyan flex items-center gap-2">
-                        서울 <span class="text-arcade-pink font-sans text-xs px-2 py-0.5 rounded bg-arcade-pink/20 border border-arcade-pink">INVITE EVENT</span>
-                    </h1>
-                    <p class="text-xs text-slate-400 mt-0.5">자유롭고 즐거운 소통 공간 디스코드 '서울' 서버</p>
-                </div>
+    <!-- 상단 고정 네비게이션 배너 -->
+    <header class="sticky top-0 z-50 bg-arcade-bg/90 backdrop-blur-md border-b border-arcade-border px-4 py-3">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🕹️</span>
+                <span class="font-bold tracking-wider text-arcade-cyan text-sm md:text-base">SEOUL ARCADE SYSTEM</span>
             </div>
-
-            <div class="flex items-center gap-3">
-                <div class="hidden sm:flex items-center gap-2 bg-arcade-panel px-3 py-1.5 rounded-lg border border-arcade-cyan/30 text-xs">
-                    <i class="fa-solid fa-headset text-arcade-cyan"></i>
-                    <span>문의: <strong class="text-arcade-yellow font-mono">eta_c4</strong></span>
-                </div>
-                <button onclick="copyServerLink()" 
-                   class="font-pixel text-[10px] sm:text-xs bg-arcade-pink hover:bg-pink-600 text-white font-bold px-4 py-2.5 rounded-lg transition-all duration-200 shadow-lg neon-border-pink flex items-center gap-2">
-                    <i class="fa-brands fa-discord text-sm"></i>
-                    <span>서버 입장하기</span>
-                </button>
+            <div class="flex items-center space-x-3 text-xs md:text-sm font-semibold">
+                <span class="px-3 py-1 bg-arcade-panel border border-arcade-pink text-arcade-pink rounded-full animate-pulse">● LIVE EVENT</span>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+    <main class="max-w-4xl mx-auto px-4 pt-8 md:pt-12 space-y-8">
 
-        <!-- 1. Retro Hero Section -->
-        <section class="scanlines relative overflow-hidden rounded-3xl bg-arcade-panel p-8 sm:p-12 border-2 border-arcade-pink/60 neon-border-pink">
-            <div class="absolute -top-20 -right-20 w-80 h-80 bg-arcade-pink/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-arcade-cyan/20 rounded-full blur-3xl pointer-events-none"></div>
+        <!-- 타이틀 섹션 -->
+        <div class="text-center space-y-4 floating">
+            <div class="inline-block px-4 py-1.5 bg-arcade-panel border border-arcade-yellow rounded-full text-arcade-yellow text-xs md:text-sm font-bold tracking-widest shadow-lg">
+                🏆 SEASON 1 : WINTER INVITATION
+            </div>
+            <h1 class="text-3xl md:text-5xl font-black tracking-tight text-white glow-text-pink">
+                서울 서버 겨울 초대 이벤트
+            </h1>
+            <p class="text-gray-400 text-sm md:text-base max-w-xl mx-auto">
+                친구들을 초대하고 화려한 아케이드 보상과 특급 경품의 주인공이 되어보세요!
+            </p>
+        </div>
 
-            <div class="relative z-10 max-w-3xl space-y-6">
-                <!-- Arcade Status Tag -->
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-arcade-bg border border-arcade-yellow text-arcade-yellow text-xs font-bold font-pixel">
-                    <span class="w-2.5 h-2.5 rounded-full bg-arcade-green animate-blink"></span>
-                    <span>SEOUL SERVER INVITE</span>
-                </div>
-
-                <!-- Main Title -->
-                <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight tracking-tight">
-                    <span class="font-pixel text-2xl sm:text-4xl text-arcade-cyan neon-text-cyan block mb-2">🏙️ 서울 초대왕 이벤트</span>
-                    서울 서버를 빛낼 <br class="hidden sm:inline"/>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-arcade-pink via-arcade-yellow to-arcade-cyan">TOP 3 특급 보상 챌린지</span>
-                </h2>
-
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                    주변 친구, 지인, 동생들을 '서울' 서버로 초대해주세요! 초대 수뿐만 아니라 <strong class="text-arcade-cyan">유효 활동률</strong>을 갖춘 열정적인 분들을 모신 상위 3분께 경품을 지급합니다.
-                </p>
-
-                <!-- Event Details Panel -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs sm:text-sm">
-                    <div class="flex items-center gap-3 bg-arcade-bg/80 p-3.5 rounded-xl border border-arcade-cyan/30">
-                        <i class="fa-regular fa-calendar-days text-arcade-cyan text-lg"></i>
-                        <div>
-                            <span class="text-slate-400 block text-[11px]">이벤트 진행 기간</span>
-                            <span class="text-white font-bold font-mono">11월 9일 ~ 11월 27일</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 bg-arcade-bg/80 p-3.5 rounded-xl border border-arcade-pink/30">
-                        <i class="fa-solid fa-clipboard-check text-arcade-pink text-lg"></i>
-                        <div>
-                            <span class="text-slate-400 block text-[11px]">인증 방식</span>
-                            <span class="text-white font-bold"><code class="text-arcade-yellow font-mono">#인증채널</code> 본인 스레드 생성</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Button -->
-                <div class="pt-4 flex flex-wrap gap-4">
-                    <button onclick="scrollToSection('verify-guide')" class="font-pixel text-xs bg-arcade-cyan hover:bg-cyan-400 text-black font-bold px-6 py-4 rounded-xl transition-all shadow-lg neon-border-cyan flex items-center gap-2">
-                        <i class="fa-solid fa-gamepad"></i>
-                        <span>인증 방법 보러가기</span>
-                    </button>
-                    <button onclick="scrollToSection('server-rules')" class="bg-arcade-bg hover:bg-arcade-panel text-white font-bold px-6 py-4 rounded-xl border border-arcade-yellow/50 transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-scroll text-arcade-yellow"></i>
-                        <span>서울 서버 규칙 보기</span>
-                    </button>
+        <!-- 1. 이벤트 기간 카드 -->
+        <div class="arcade-card rounded-2xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 text-9xl opacity-5 select-none pointer-events-none">📅</div>
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="p-3 bg-arcade-panel border border-arcade-cyan rounded-xl text-xl">⏳</div>
+                <div>
+                    <h2 class="text-lg md:text-xl font-bold text-arcade-cyan">이벤트 진행 기간</h2>
+                    <p class="text-xs text-gray-400">EVENT TIMELINE</p>
                 </div>
             </div>
-        </section>
-
-        <!-- 2. TOP 3 Rewards Section -->
-        <section id="rewards" class="space-y-8">
-            <div class="text-center space-y-2">
-                <h3 class="font-pixel text-xl sm:text-2xl text-arcade-yellow neon-text-yellow">🏆 TOP 3 PRIZES</h3>
-                <p class="text-slate-400 text-sm">상위 3명의 초대왕에게 주어지는 전리품!</p>
-            </div>
-
-            <!-- Top 3 Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-                
-                <!-- 2nd Place -->
-                <div class="order-2 md:order-1 bg-arcade-panel rounded-2xl p-6 border-2 border-slate-400/50 flex flex-col justify-between relative group hover:-translate-y-1 transition-all">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-slate-300 text-black font-pixel text-[10px] px-3 py-1 rounded-full font-bold">
-                        2nd PLACE
-                    </div>
-                    <div class="text-center pt-2 space-y-4">
-                        <div class="text-5xl my-2">🥈</div>
-                        <h4 class="font-pixel text-sm text-slate-200">2등 보상</h4>
-                        <div class="p-4 rounded-xl bg-arcade-bg border border-slate-500/30">
-                            <p class="text-lg font-extrabold text-white">디스코드 니트로</p>
-                            <span class="text-xs text-arcade-cyan font-bold">(Nitro 혜택)</span>
-                        </div>
-                    </div>
-                    <div class="mt-6 text-center text-xs text-slate-400 border-t border-slate-800 pt-4">
-                        초대 실적 + 유효 활동률 2위
-                    </div>
+            <div class="bg-arcade-bg/60 border border-arcade-border rounded-xl p-4 md:p-5 flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+                <div class="text-center md:text-left">
+                    <span class="text-xs text-gray-400 block mb-1">시작일 및 종료일</span>
+                    <span class="text-base md:text-lg font-bold text-arcade-yellow">2026년 11월 9일 ~ 2026년 11월 27일</span>
                 </div>
-
-                <!-- 1st Place (Grand Prize Highlight) -->
-                <div class="order-1 md:order-2 bg-gradient-to-b from-arcade-panel via-arcade-bg to-arcade-panel rounded-2xl p-6 border-2 border-arcade-yellow neon-border-yellow flex flex-col justify-between relative group hover:-translate-y-2 transition-all">
-                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-arcade-yellow text-black font-pixel text-xs px-4 py-1.5 rounded-full font-bold animate-pulse">
-                        👑 CHAMPION
-                    </div>
-                    <div class="text-center pt-3 space-y-4">
-                        <div class="text-6xl my-2">🥇</div>
-                        <h4 class="font-pixel text-base text-arcade-yellow neon-text-yellow">1등 챔피언</h4>
-                        <div class="p-5 rounded-xl bg-arcade-bg/90 border border-arcade-yellow/60">
-                            <p class="text-xl font-black text-white">치킨 기프티콘</p>
-                            <span class="text-xs text-arcade-yellow font-bold">(브랜드 치킨 세트)</span>
-                        </div>
-                    </div>
-                    <div class="mt-6 text-center text-xs text-slate-300 border-t border-arcade-yellow/20 pt-4 font-bold">
-                        최고 초대 수 + 활동 유저 보유 1위
-                    </div>
-                </div>
-
-                <!-- 3rd Place -->
-                <div class="order-3 bg-arcade-panel rounded-2xl p-6 border-2 border-amber-700/50 flex flex-col justify-between relative group hover:-translate-y-1 transition-all">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-600 text-white font-pixel text-[10px] px-3 py-1 rounded-full font-bold">
-                        3rd PLACE
-                    </div>
-                    <div class="text-center pt-2 space-y-4">
-                        <div class="text-5xl my-2">🥉</div>
-                        <h4 class="font-pixel text-sm text-amber-500">3등 보상</h4>
-                        <div class="p-4 rounded-xl bg-arcade-bg border border-amber-600/30">
-                            <p class="text-lg font-extrabold text-white">5,000원</p>
-                            <span class="text-xs text-amber-400 font-bold">(상당 경품)</span>
-                        </div>
-                    </div>
-                    <div class="mt-6 text-center text-xs text-slate-400 border-t border-slate-800 pt-4">
-                        초대 실적 + 유효 활동률 3위
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- 3. Official Server Rules (서울 서버 규칙사항) -->
-        <section id="server-rules" class="space-y-8">
-            <div class="text-center space-y-2">
-                <h3 class="font-pixel text-xl sm:text-2xl text-arcade-yellow neon-text-yellow">📜 서울 서버 규칙사항</h3>
-                <p class="text-slate-400 text-sm">소통으로 서로 불편함이 없도록 꼭 준수해야 할 필수 규칙입니다.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Rule 1 -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-cyan/40 space-y-3">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-arcade-cyan/20 border border-arcade-cyan text-arcade-cyan font-pixel text-xs flex items-center justify-center">01</span>
-                        <h4 class="text-white font-bold text-base">상대방의 예의</h4>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        서로 존중하면서 소통하는 것이 사이버를 잘하는 것입니다. 소통으로 인한 불편함이 생기지 않도록 소통 주제를 맞추며 예의 있게 소통합시다!
-                    </p>
-                </div>
-
-                <!-- Rule 2 -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-pink/40 space-y-3">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-arcade-pink/20 border border-arcade-pink text-arcade-pink font-pixel text-xs flex items-center justify-center">02</span>
-                        <h4 class="text-white font-bold text-base">욕설과 패드립 금지</h4>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        욕은 다른 사람에게 불편함과 답답함을 줄 수 있습니다. 채팅으로 욕설을 쓰지 않고 마음속으로만 해주시기 바랍니다.
-                    </p>
-                </div>
-
-                <!-- Rule 3 -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-yellow/40 space-y-3">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-arcade-yellow/20 border border-arcade-yellow text-arcade-yellow font-pixel text-xs flex items-center justify-center">03</span>
-                        <h4 class="text-white font-bold text-base">들낙 및 질서 (영구추방)</h4>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        사유 없는 들낙(들어왔다 나가기)은 '서울' 서버에서 영원히 추방될 수 있는 사유입니다. 이벤트 때문에 재입장하는 등 사유가 없으면 영구 추방됩니다.
-                    </p>
-                </div>
-
-                <!-- Rule 4 -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-green/40 space-y-3">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-arcade-green/20 border border-arcade-green text-arcade-green font-pixel text-xs flex items-center justify-center">04</span>
-                        <h4 class="text-white font-bold text-base">이벤트 규칙 (주 1~2회)</h4>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        이벤트는 주 1회, 많으면 2회 다양하게 진행합니다. 관리진 사비를 보태서 큰 이벤트를 준비하니 주변 지인, 동생들을 많이 데리고 와주세요!
-                    </p>
-                </div>
-
-                <!-- Rule 5 -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-purple-500/40 space-y-3 lg:col-span-2">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500 text-purple-400 font-pixel text-xs flex items-center justify-center">05</span>
-                        <h4 class="text-white font-bold text-base">상단 배너 안내</h4>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        상단 배너는 불법 및 토큰 서버는 일절 받지 않습니다. 혹여나 불법/토큰 서버가 배치된 것을 발견하시면 문의 주시기 바랍니다.
-                    </p>
+                <div class="px-4 py-2 bg-arcade-pink/20 border border-arcade-pink/50 text-arcade-pink text-xs font-bold rounded-lg">
+                    진행 중 🔥
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- 4. How to Verify (Channel Thread Rule) -->
-        <section id="verify-guide" class="space-y-8">
-            <div class="text-center space-y-2">
-                <h3 class="font-pixel text-xl sm:text-2xl text-arcade-cyan neon-text-cyan">📌 이벤트 참여 & 인증 방법</h3>
-                <p class="text-slate-400 text-sm">인증 채널에서 본인 이름의 스레드를 만들어 작성해두세요.</p>
-            </div>
-
-            <div class="bg-arcade-panel rounded-2xl p-6 sm:p-8 border-2 border-arcade-cyan/40 neon-border-cyan space-y-6">
-                <!-- 3-step Verification Process -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
-                    <!-- Step 1 -->
-                    <div class="bg-arcade-bg p-5 rounded-xl border border-arcade-border space-y-3">
-                        <div class="font-pixel text-xs text-arcade-pink bg-arcade-pink/10 border border-arcade-pink/30 w-fit px-2.5 py-1 rounded">
-                            STEP 01
-                        </div>
-                        <h4 class="text-white font-bold text-base"><code class="text-arcade-cyan">#인증채널</code> 이동</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            서울 서버 내의 <strong class="text-white">#인증채널</strong>에 들어간 후, 본인 이름으로 된 <strong class="text-arcade-yellow">개인 전용 스레드(Thread)</strong>를 만듭니다.
-                        </p>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="bg-arcade-bg p-5 rounded-xl border border-arcade-border space-y-3">
-                        <div class="font-pixel text-xs text-arcade-pink bg-arcade-pink/10 border border-arcade-pink/30 w-fit px-2.5 py-1 rounded">
-                            STEP 02
-                        </div>
-                        <h4 class="text-white font-bold text-base">초대 정보 기록</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            본인이 초대한 사람의 <strong class="text-white">디스코드 이름</strong>과 <strong class="text-arcade-cyan">고유 아이디(User ID)</strong>를 본인 스레드에 작성해 둡니다.
-                        </p>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="bg-arcade-bg p-5 rounded-xl border border-arcade-border space-y-3">
-                        <div class="font-pixel text-xs text-arcade-pink bg-arcade-pink/10 border border-arcade-pink/30 w-fit px-2.5 py-1 rounded">
-                            STEP 03
-                        </div>
-                        <h4 class="text-white font-bold text-base">관리자 최종 검증</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            이벤트 종료 후 관리자가 스레드의 기록과 실제 봇 로그 및 유효 활동률을 정밀 확인하여 최종 수량을 집계합니다.
-                        </p>
-                    </div>
-
-                </div>
-
-                <!-- Format Example Code Box -->
-                <div class="bg-arcade-bg p-4 rounded-xl border border-white/10 space-y-2">
-                    <span class="text-xs font-bold text-arcade-yellow flex items-center gap-1.5">
-                        <i class="fa-solid fa-code"></i> 스레드 인증 작성 예시:
-                    </span>
-                    <pre class="bg-black/60 p-3 rounded-lg text-xs font-mono text-arcade-green overflow-x-auto border border-white/5">
-[서울 초대 인증]
-- 디스코드 이름: 홍길동 (또는 @gildong)
-- 고유 아이디: 398129038102938102
-- 초대한 인원수: 1명 추가</pre>
+        <!-- 2. TOP 3 특급 보상 카드 -->
+        <div class="arcade-card rounded-2xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 text-9xl opacity-5 select-none pointer-events-none">🎁</div>
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 bg-arcade-panel border border-arcade-yellow rounded-xl text-xl">🏆</div>
+                <div>
+                    <h2 class="text-lg md:text-xl font-bold text-arcade-yellow">TOP 3 특급 보상</h2>
+                    <p class="text-xs text-gray-400">EXCLUSIVE REWARDS</p>
                 </div>
             </div>
-        </section>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- 1등 -->
+                <div class="bg-arcade-bg/80 border-2 border-arcade-yellow rounded-xl p-5 text-center space-y-3 relative overflow-hidden shadow-lg hover:scale-105 transition-transform">
+                    <div class="absolute top-0 right-0 bg-arcade-yellow text-black font-black text-xs px-3 py-1 rounded-bl-lg">RANK 1</div>
+                    <div class="text-4xl pt-2">🥇</div>
+                    <div class="font-bold text-white text-lg">1등 보상</div>
+                    <div class="p-2 bg-arcade-panel rounded-lg border border-arcade-border text-arcade-yellow font-semibold text-sm">
+                        🍗 치킨 기프티콘
+                    </div>
+                </div>
 
-        <!-- 5. Mandatory Restrictions -->
-        <section class="space-y-8">
-            <div class="text-center space-y-2">
-                <h3 class="font-pixel text-xl sm:text-2xl text-arcade-pink neon-text-pink">🚫 초대 이벤트 주의사항</h3>
-                <p class="text-slate-400 text-sm">아래 규칙을 위반하는 초대 실적은 모두 자동 실격 처리됩니다.</p>
+                <!-- 2등 -->
+                <div class="bg-arcade-bg/80 border-2 border-arcade-cyan rounded-xl p-5 text-center space-y-3 relative overflow-hidden shadow-lg hover:scale-105 transition-transform">
+                    <div class="absolute top-0 right-0 bg-arcade-cyan text-black font-black text-xs px-3 py-1 rounded-bl-lg">RANK 2</div>
+                    <div class="text-4xl pt-2">🥈</div>
+                    <div class="font-bold text-white text-lg">2등 보상</div>
+                    <div class="p-2 bg-arcade-panel rounded-lg border border-arcade-border text-arcade-cyan font-semibold text-sm">
+                        💎 Discord Nitro
+                    </div>
+                </div>
+
+                <!-- 3등 -->
+                <div class="bg-arcade-bg/80 border-2 border-arcade-pink rounded-xl p-5 text-center space-y-3 relative overflow-hidden shadow-lg hover:scale-105 transition-transform">
+                    <div class="absolute top-0 right-0 bg-arcade-pink text-white font-black text-xs px-3 py-1 rounded-bl-lg">RANK 3</div>
+                    <div class="text-4xl pt-2">🥉</div>
+                    <div class="font-bold text-white text-lg">3등 보상</div>
+                    <div class="p-2 bg-arcade-panel rounded-lg border border-arcade-border text-arcade-pink font-semibold text-sm">
+                        💵 5,000원 (현금/기프티콘)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 필수 규칙 및 어뷰징 방지 안내 -->
+        <div class="arcade-card rounded-2xl p-6 md:p-8 relative overflow-hidden border-l-4 border-l-arcade-pink">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 bg-arcade-panel border border-arcade-pink rounded-xl text-xl">📜</div>
+                <div>
+                    <h2 class="text-lg md:text-xl font-bold text-arcade-pink">필수 규칙 및 어뷰징 방지 안내</h2>
+                    <p class="text-xs text-gray-400">SERVER RULES & GUIDELINES</p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                <!-- Rule Card 1: Ghost User Restrictions -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-pink/40 space-y-3 relative overflow-hidden">
-                    <div class="w-10 h-10 rounded-lg bg-arcade-pink/20 border border-arcade-pink text-arcade-pink flex items-center justify-center font-bold text-lg mb-2">
-                        <i class="fa-solid fa-ghost"></i>
+            <div class="space-y-4 text-sm md:text-base text-gray-300">
+                <div class="flex items-start space-x-3 bg-arcade-bg/50 p-4 rounded-xl border border-arcade-border">
+                    <span class="text-arcade-pink font-bold text-lg">01</span>
+                    <div>
+                        <strong class="text-white block mb-1">유효 활동률 필수</strong>
+                        <p class="text-gray-400 text-xs md:text-sm">단순히 서버 가입만 시키는 것은 무효 처리됩니다. 들어와서 채팅 및 소통 등 실제로 활동이 있어야 유효 초대수로 인정됩니다.</p>
                     </div>
-                    <h4 class="text-white font-bold text-lg flex items-center gap-2">
-                        활동률 필수 (들어와서 아무것도 안 하면 무효)
-                        <span class="text-[10px] bg-arcade-pink text-white px-2 py-0.5 rounded font-bold">필수</span>
-                    </h4>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        데려온 사람 숫자만 늘리고 서버 들어와서 아무것도 안 하는 계정은 <strong class="text-arcade-pink">실적 인정이 안 됩니다!</strong> 채팅 소통 등 조금이라도 서버 활동이 나와야 유효 초대수로 인정됩니다.
-                    </p>
                 </div>
 
-                <!-- Rule Card 2: Alt & Macro Ban -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-cyan/40 space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-arcade-cyan/20 border border-arcade-cyan text-arcade-cyan flex items-center justify-center font-bold text-lg mb-2">
-                        <i class="fa-solid fa-robot"></i>
+                <div class="flex items-start space-x-3 bg-arcade-bg/50 p-4 rounded-xl border border-arcade-border">
+                    <span class="text-arcade-pink font-bold text-lg">02</span>
+                    <div>
+                        <strong class="text-white block mb-1">어뷰징 엄금</strong>
+                        <p class="text-gray-400 text-xs md:text-sm">본인 부계정, 매크로 봇, 생성된 지 얼마 안 된 신생 계정 초대는 적발 즉시 모든 실적 무효 처리 및 제재됩니다.</p>
                     </div>
-                    <h4 class="text-white font-bold text-lg">부계정 & 매크로 & 신생계정 금지</h4>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        본인 부계정, 매크로 봇 계정, 생성된 지 얼마 되지 않은 신생계정 초대는 발견 즉시 무효 처리 및 제재됩니다.
-                    </p>
                 </div>
 
-                <!-- Rule Card 3: No Leaving -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-yellow/40 space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-arcade-yellow/20 border border-arcade-yellow text-arcade-yellow flex items-center justify-center font-bold text-lg mb-2">
-                        <i class="fa-solid fa-door-closed"></i>
+                <div class="flex items-start space-x-3 bg-arcade-bg/50 p-4 rounded-xl border border-arcade-border">
+                    <span class="text-arcade-pink font-bold text-lg">03</span>
+                    <div>
+                        <strong class="text-white block mb-1">중도 퇴장 차감</strong>
+                        <p class="text-gray-400 text-xs md:text-sm">이벤트 도중 초대받은 유저가 나갈 경우 실적 수량에서 자동 차감됩니다.</p>
                     </div>
-                    <h4 class="text-white font-bold text-lg">중도 퇴장 차감</h4>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        이벤트 도중 초대한 유저가 나갈 경우 실적 수량에서 자동 차감됩니다. (들낙 규정에도 위배됨)
-                    </p>
                 </div>
-
-                <!-- Rule Card 4: Contact Manager -->
-                <div class="bg-arcade-panel p-6 rounded-2xl border border-arcade-green/40 space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-arcade-green/20 border border-arcade-green text-arcade-green flex items-center justify-center font-bold text-lg mb-2">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <h4 class="text-white font-bold text-lg">보상 수령 및 문의처</h4>
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        이벤트 관련 문의 및 보상 수령 문의는 총괄 담당자 <code class="bg-arcade-bg text-arcade-green font-mono px-2 py-0.5 rounded text-xs border border-arcade-green/30">eta_c4</code> 님에게 주시면 됩니다.
-                    </p>
-                </div>
-
             </div>
-        </section>
+        </div>
+
+        <!-- 4. 문의 및 보상 수령처 -->
+        <div class="arcade-card rounded-2xl p-6 md:p-8 text-center space-y-4">
+            <div class="inline-block p-3 bg-arcade-panel border border-arcade-purple rounded-2xl text-2xl mb-1">📞</div>
+            <h2 class="text-lg md:text-xl font-bold text-white">보상 수령 및 문의처</h2>
+            <p class="text-gray-400 text-sm">
+                이벤트 관련 문의 및 보상 수령은 아래 총괄 담당자에게 문의해 주세요.
+            </p>
+            <div class="inline-block bg-arcade-bg border border-arcade-cyan/50 px-6 py-3 rounded-xl font-mono text-arcade-cyan text-sm md:text-base tracking-wider shadow-inner">
+                ADMIN : eta_c4
+            </div>
+        </div>
 
     </main>
 
-    <!-- Retro Arcade Footer -->
-    <footer class="bg-arcade-bg border-t border-arcade-pink/30 py-8 px-4 mt-16 text-center text-xs text-slate-400 space-y-3">
-        <div class="font-pixel text-arcade-pink text-xs">
-            서울 [SEOUL] DISCORD COMMUNITY
-        </div>
-        <p>공식 서버 초대 링크: <button onclick="copyServerLink()" class="text-arcade-cyan underline hover:text-white font-mono">https://discord.gg/Tqh2ACuEx</button></p>
-        <p>보상 수령 및 문의: <span class="text-arcade-yellow font-mono font-bold">eta_c4</span></p>
-        <p class="text-[10px] text-slate-500">© 2026 서울 SERVER. ALL RIGHTS RESERVED.</p>
+    <!-- 푸터 -->
+    <footer class="max-w-4xl mx-auto px-4 mt-16 text-center text-gray-500 text-xs space-y-2 border-t border-arcade-border pt-6">
+        <p>© 2026 서울 [SEOUL] DISCORD COMMUNITY. ALL RIGHTS RESERVED.</p>
+        <p class="text-arcade-purple font-mono">SYSTEM DESIGNED FOR SEOUL COMMUNITY</p>
     </footer>
 
-    <!-- JavaScript Functions -->
-    <script>
-        const SERVER_LINK = 'https://discord.gg/Tqh2ACuEx';
-
-        function copyServerLink() {
-            const tempInput = document.createElement('input');
-            tempInput.value = SERVER_LINK;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            
-            showToast('서울 서버 초대 링크가 복사되었습니다!');
-        }
-
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function showToast(message, isError = false) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            toast.className = `flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl text-xs sm:text-sm font-bold border transition-all duration-300 transform translate-y-4 opacity-0 ${
-                isError 
-                    ? 'bg-arcade-panel text-arcade-pink border-arcade-pink' 
-                    : 'bg-arcade-panel text-arcade-cyan border-arcade-cyan'
-            }`;
-            
-            toast.innerHTML = `
-                <i class="${isError ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-crown'} text-lg"></i>
-                <span>${message}</span>
-            `;
-
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-4', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
-        }
-    </script>
 </body>
 </html>
