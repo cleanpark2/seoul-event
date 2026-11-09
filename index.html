@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>서울 [SEOUL] - 디스코드 초대왕 이벤트 & 서버 규칙</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -33,14 +34,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
+        @keyframes pulse-neon {
+            0%, 100% { text-shadow: 0 0 15px #FF007F, 0 0 30px #FF007F, 0 0 45px #FF007F; }
+            50% { text-shadow: 0 0 8px #FF007F, 0 0 16px #FF007F; }
+        }
         .scanline {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%), linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
             background-size: 100% 4px, 6px 100%;
             pointer-events: none;
             z-index: 999;
@@ -49,16 +58,17 @@
         .arcade-card {
             background: linear-gradient(135deg, #100B1E 0%, #1A1230 100%);
             border: 2px solid #2A1F45;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.7);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
             transition: all 0.3s ease;
         }
         .arcade-card:hover {
             border-color: #00F0FF;
-            box-shadow: 0 0 35px rgba(0,240,255,0.45);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.45);
             transform: translateY(-3px);
         }
         .glow-pink { text-shadow: 0 0 15px #FF007F, 0 0 30px #FF007F; }
         .glow-cyan { text-shadow: 0 0 15px #00F0FF, 0 0 30px #00F0FF; }
+        .glow-yellow { text-shadow: 0 0 15px #FFE600, 0 0 30px #FFE600; }
         .floating { animation: float 4s ease-in-out infinite; }
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #05030A; }
@@ -68,8 +78,10 @@
 </head>
 <body class="bg-arcade-bg text-gray-100 min-h-screen font-sans selection:bg-arcade-pink selection:text-white pb-24 relative overflow-x-hidden">
 
+    <!-- CRT 스캔라인 오버레이 효과 -->
     <div class="scanline"></div>
 
+    <!-- 상단 고정 네비게이션 바 -->
     <header class="sticky top-0 z-50 bg-arcade-bg/95 backdrop-blur-md border-b border-arcade-border px-4 py-4 shadow-2xl">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -97,9 +109,10 @@
         </div>
     </header>
 
+    <!-- 메인 컨테이너 영역 -->
     <main class="max-w-4xl mx-auto px-4 pt-12 md:pt-16 space-y-12 relative z-10">
 
-        <!-- 히어로 섹션 -->
+        <!-- 히어로 메인 배너 섹션 -->
         <div class="arcade-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden floating">
             <div class="absolute -top-20 -right-20 w-60 h-60 bg-arcade-pink/15 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-arcade-cyan/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -140,6 +153,7 @@
             </div>
         </div>
 
+        <!-- 하단 방향 유도 인디케이터 -->
         <div class="text-center">
             <div class="inline-block w-10 h-10 rounded-full bg-arcade-panel border border-arcade-border text-arcade-cyan flex items-center justify-center animate-bounce shadow-lg">
                 <i class="fa-solid fa-arrow-down"></i>
@@ -159,7 +173,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <!-- 1등 -->
+                <!-- 1등 보상 카드 -->
                 <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden group">
                     <div class="absolute top-0 right-0 bg-arcade-yellow text-black font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono shadow-md">RANK 1</div>
                     <div class="text-5xl pt-2 group-hover:scale-110 transition-transform">🥇</div>
@@ -173,7 +187,7 @@
                     <p class="text-xs text-gray-400 leading-relaxed">최고의 초대 실적과 활약을 보여주신 1위 분께 지급됩니다.</p>
                 </div>
 
-                <!-- 2등 -->
+                <!-- 2등 보상 카드 -->
                 <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden group">
                     <div class="absolute top-0 right-0 bg-arcade-cyan text-black font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono shadow-md">RANK 2</div>
                     <div class="text-5xl pt-2 group-hover:scale-110 transition-transform">🥈</div>
@@ -187,7 +201,7 @@
                     <p class="text-xs text-gray-400 leading-relaxed">안정적인 초대 실적을 기록하신 2위 분께 지급됩니다.</p>
                 </div>
 
-                <!-- 3등 -->
+                <!-- 3등 보상 카드 -->
                 <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden group">
                     <div class="absolute top-0 right-0 bg-arcade-pink text-white font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono shadow-md">RANK 3</div>
                     <div class="text-5xl pt-2 group-hover:scale-110 transition-transform">🥉</div>
@@ -258,6 +272,7 @@
 
     </main>
 
+    <!-- 푸터 영역 -->
     <footer class="max-w-4xl mx-auto px-4 mt-20 text-center text-gray-500 text-xs space-y-2 border-t border-arcade-border pt-8 relative z-10">
         <p>© 2026 서울 [SEOUL] DISCORD COMMUNITY. ALL RIGHTS RESERVED.</p>
         <p class="text-arcade-purple font-mono">OFFICIAL ARCADE SYSTEM FOR SEOUL SERVER</p>
