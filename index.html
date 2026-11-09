@@ -43,8 +43,8 @@
             50% { transform: translateY(-8px); }
         }
         @keyframes pulse-neon {
-            0%, 100% { text-shadow: 0 0 10px #FF007F, 0 0 20px #FF007F, 0 0 30px #FF007F; }
-            50% { text-shadow: 0 0 5px #FF007F, 0 0 10px #FF007F; }
+            0%, 100% { text-shadow: 0 0 15px #FF007F, 0 0 30px #FF007F, 0 0 45px #FF007F; }
+            50% { text-shadow: 0 0 8px #FF007F, 0 0 16px #FF007F; }
         }
         .scanline {
             position: fixed;
@@ -53,22 +53,22 @@
             background-size: 100% 4px, 6px 100%;
             pointer-events: none;
             z-index: 999;
-            opacity: 0.7;
+            opacity: 0.75;
         }
         .arcade-card {
             background: linear-gradient(135deg, #100B1E 0%, #1A1230 100%);
             border: 2px solid #2A1F45;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
             transition: all 0.3s ease;
         }
         .arcade-card:hover {
             border-color: #00F0FF;
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.45);
             transform: translateY(-3px);
         }
-        .glow-pink { text-shadow: 0 0 12px #FF007F, 0 0 24px #FF007F; }
-        .glow-cyan { text-shadow: 0 0 12px #00F0FF, 0 0 24px #00F0FF; }
-        .glow-yellow { text-shadow: 0 0 12px #FFE600, 0 0 24px #FFE600; }
+        .glow-pink { text-shadow: 0 0 15px #FF007F, 0 0 30px #FF007F; }
+        .glow-cyan { text-shadow: 0 0 15px #00F0FF, 0 0 30px #00F0FF; }
+        .glow-yellow { text-shadow: 0 0 15px #FFE600, 0 0 30px #FFE600; }
         .floating { animation: float 4s ease-in-out infinite; }
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #05030A; }
@@ -78,14 +78,14 @@
 </head>
 <body class="bg-arcade-bg text-gray-100 min-h-screen font-sans selection:bg-arcade-pink selection:text-white pb-24 relative overflow-x-hidden">
 
-    <!-- CRT 스캔라인 -->
+    <!-- CRT 스캔라인 오버레이 효과 -->
     <div class="scanline"></div>
 
-    <!-- 상단 네비게이션 바 -->
+    <!-- 상단 고정 네비게이션 바 -->
     <header class="sticky top-0 z-50 bg-arcade-bg/95 backdrop-blur-md border-b border-arcade-border px-4 py-4 shadow-2xl">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-arcade-panel border-2 border-arcade-pink flex items-center justify-center text-arcade-pink shadow-[0_0_10px_rgba(255,0,127,0.4)]">
+                <div class="w-10 h-10 rounded-xl bg-arcade-panel border-2 border-arcade-pink flex items-center justify-center text-arcade-pink shadow-[0_0_15px_rgba(255,0,127,0.5)]">
                     <i class="fa-solid fa-building-shield text-lg"></i>
                 </div>
                 <div>
@@ -97,11 +97,11 @@
                 </div>
             </div>
             <div class="flex items-center space-x-2">
-                <a href="#contact" class="px-3.5 py-2 bg-arcade-panel border border-arcade-cyan text-arcade-cyan text-xs font-bold rounded-xl hover:bg-arcade-cyan/10 transition-colors flex items-center space-x-1.5 shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+                <a href="#contact" class="px-3.5 py-2 bg-arcade-panel border border-arcade-cyan text-arcade-cyan text-xs font-bold rounded-xl hover:bg-arcade-cyan/10 transition-colors flex items-center space-x-1.5 shadow-[0_0_12px_rgba(0,240,255,0.3)]">
                     <i class="fa-solid fa-headset"></i>
                     <span class="hidden sm:inline">문의: eta_c4</span>
                 </a>
-                <a href="https://discord.gg" target="_blank" class="px-3.5 py-2 bg-arcade-pink text-white text-xs font-bold rounded-xl hover:bg-pink-600 transition-colors flex items-center space-x-1.5 shadow-[0_0_15px_rgba(255,0,127,0.4)]">
+                <a href="https://discord.gg" target="_blank" class="px-3.5 py-2 bg-arcade-pink text-white text-xs font-bold rounded-xl hover:bg-pink-600 transition-colors flex items-center space-x-1.5 shadow-[0_0_20px_rgba(255,0,127,0.5)]">
                     <i class="fa-brands fa-discord"></i>
                     <span>서버 입장하기</span>
                 </a>
@@ -109,28 +109,29 @@
         </div>
     </header>
 
+    <!-- 메인 컨테이너 영역 -->
     <main class="max-w-4xl mx-auto px-4 pt-12 md:pt-16 space-y-12 relative z-10">
 
-        <!-- 히어로 섹션 -->
+        <!-- 히어로 메인 배너 섹션 -->
         <div class="arcade-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden floating">
-            <div class="absolute -top-20 -right-20 w-60 h-60 bg-arcade-pink/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-arcade-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -top-20 -right-20 w-60 h-60 bg-arcade-pink/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-arcade-cyan/15 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="inline-block px-4 py-1.5 bg-arcade-panel border border-arcade-cyan rounded-full text-arcade-cyan text-xs font-bold tracking-widest mb-6 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
-                SEOUL SERVER INVITE
+            <div class="inline-block px-4 py-1.5 bg-arcade-panel border border-arcade-cyan rounded-full text-arcade-cyan text-xs font-bold tracking-widest mb-6 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                SEOUL SERVER INVITE CHAMPIONSHIP
             </div>
 
             <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white glow-pink mb-4 leading-tight">
                 서울 초대왕 이벤트<br>
-                <span class="text-arcade-cyan glow-cyan">서울 서버를 빛낼</span>
+                <span class="text-arcade-cyan glow-cyan">서울 서버를 빛낼 주인공</span>
             </h1>
 
             <p class="text-gray-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-8">
-                주변 친구, 지인, 동생들을 '서울' 서버로 초대해주세요! 초대 수뿐만 아니라 <span class="text-arcade-yellow font-bold">유효 활동률</span>을 갖춘 열정적인 분들을 모신 상위 3분께 경품을 지급합니다.
+                주변 친구, 지인, 동생들을 '서울' 서버로 초대해주세요! 초대 수뿐만 아니라 <span class="text-arcade-yellow font-bold">유효 활동률</span>을 갖춘 열정적인 분들을 모신 상위 3분께 파격적인 경품을 지급합니다.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto text-left">
-                <div class="bg-arcade-bg/60 border border-arcade-border rounded-xl p-4 flex items-center space-x-3">
+                <div class="bg-arcade-bg/70 border border-arcade-border rounded-xl p-4 flex items-center space-x-3 shadow-inner">
                     <div class="text-arcade-cyan text-xl p-2.5 bg-arcade-panel rounded-lg border border-arcade-border">
                         <i class="fa-solid fa-calendar-days"></i>
                     </div>
@@ -140,7 +141,7 @@
                     </div>
                 </div>
 
-                <div class="bg-arcade-bg/60 border border-arcade-border rounded-xl p-4 flex items-center space-x-3">
+                <div class="bg-arcade-bg/70 border border-arcade-border rounded-xl p-4 flex items-center space-x-3 shadow-inner">
                     <div class="text-arcade-pink text-xl p-2.5 bg-arcade-panel rounded-lg border border-arcade-border">
                         <i class="fa-solid fa-clipboard-check"></i>
                     </div>
@@ -152,17 +153,17 @@
             </div>
         </div>
 
-        <!-- 하단 화살표 인디케이터 -->
+        <!-- 하단 방향 유도 인디케이터 -->
         <div class="text-center">
             <div class="inline-block w-10 h-10 rounded-full bg-arcade-panel border border-arcade-border text-arcade-cyan flex items-center justify-center animate-bounce shadow-lg">
                 <i class="fa-solid fa-arrow-down"></i>
             </div>
         </div>
 
-        <!-- 🏆 TOP 3 특급 보상 섹션 -->
+        <!-- 🏆 TOP 3 특급 보상 안내 섹션 -->
         <div class="space-y-6">
             <div class="flex items-center space-x-3 border-b border-arcade-border pb-4">
-                <div class="p-2.5 bg-arcade-panel border border-arcade-yellow rounded-xl text-arcade-yellow">
+                <div class="p-2.5 bg-arcade-panel border border-arcade-yellow rounded-xl text-arcade-yellow shadow-[0_0_10px_rgba(255,230,0,0.3)]">
                     <i class="fa-solid fa-trophy text-xl"></i>
                 </div>
                 <div>
@@ -172,10 +173,10 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <!-- 1등 -->
-                <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-arcade-yellow text-black font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono">RANK 1</div>
-                    <div class="text-5xl pt-2">🥇</div>
+                <!-- 1등 보상 카드 -->
+                <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-arcade-yellow text-black font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono shadow-md">RANK 1</div>
+                    <div class="text-5xl pt-2 group-hover:scale-110 transition-transform">🥇</div>
                     <div>
                         <span class="text-xs text-gray-400 font-mono">CHAMPION</span>
                         <h3 class="text-xl font-black text-white">1등 포상</h3>
@@ -186,10 +187,10 @@
                     <p class="text-xs text-gray-400 leading-relaxed">최고의 초대 실적과 활약을 보여주신 1위 분께 지급됩니다.</p>
                 </div>
 
-                <!-- 2등 -->
-                <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-arcade-cyan text-black font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono">RANK 2</div>
-                    <div class="text-5xl pt-2">🥈</div>
+                <!-- 2등 보상 카드 -->
+                <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-arcade-cyan text-black font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono shadow-md">RANK 2</div>
+                    <div class="text-5xl pt-2 group-hover:scale-110 transition-transform">🥈</div>
                     <div>
                         <span class="text-xs text-gray-400 font-mono">RUNNER-UP</span>
                         <h3 class="text-xl font-black text-white">2등 포상</h3>
@@ -200,10 +201,10 @@
                     <p class="text-xs text-gray-400 leading-relaxed">안정적인 초대 실적을 기록하신 2위 분께 지급됩니다.</p>
                 </div>
 
-                <!-- 3등 -->
-                <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-arcade-pink text-white font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono">RANK 3</div>
-                    <div class="text-5xl pt-2">🥉</div>
+                <!-- 3등 보상 카드 -->
+                <div class="arcade-card rounded-2xl p-6 text-center space-y-4 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-arcade-pink text-white font-black text-xs px-3.5 py-1 rounded-bl-xl font-mono shadow-md">RANK 3</div>
+                    <div class="text-5xl pt-2 group-hover:scale-110 transition-transform">🥉</div>
                     <div>
                         <span class="text-xs text-gray-400 font-mono">THIRD PLACE</span>
                         <h3 class="text-xl font-black text-white">3등 포상</h3>
@@ -216,10 +217,10 @@
             </div>
         </div>
 
-        <!-- 📜 필수 규칙 및 어뷰징 방지 안내 -->
+        <!-- 📜 필수 규칙 및 어뷰징 방지 안내 섹션 -->
         <div class="arcade-card rounded-2xl p-6 md:p-8 space-y-6 border-l-4 border-l-arcade-pink">
             <div class="flex items-center space-x-3">
-                <div class="p-2.5 bg-arcade-panel border border-arcade-pink rounded-xl text-arcade-pink">
+                <div class="p-2.5 bg-arcade-panel border border-arcade-pink rounded-xl text-arcade-pink shadow-[0_0_10px_rgba(255,0,127,0.3)]">
                     <i class="fa-solid fa-scroll text-xl"></i>
                 </div>
                 <div>
@@ -255,7 +256,7 @@
             </div>
         </div>
 
-        <!-- 📞 문의 및 보상 수령처 -->
+        <!-- 📞 문의 및 보상 수령처 섹션 -->
         <div id="contact" class="arcade-card rounded-2xl p-8 text-center space-y-4">
             <div class="inline-block p-3 bg-arcade-panel border border-arcade-purple rounded-2xl text-arcade-purple text-2xl shadow-lg">
                 <i class="fa-solid fa-headset"></i>
@@ -264,14 +265,14 @@
             <p class="text-gray-400 text-sm max-w-md mx-auto">
                 이벤트 관련 문의 및 최종 보상 수령은 아래 총괄 담당자에게 문의해 주시기 바랍니다.
             </p>
-            <div class="inline-block bg-arcade-bg border-2 border-arcade-cyan px-6 py-3 rounded-xl font-mono text-arcade-cyan text-base font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)] animate-pulse">
+            <div class="inline-block bg-arcade-bg border-2 border-arcade-cyan px-6 py-3 rounded-xl font-mono text-arcade-cyan text-base font-bold shadow-[0_0_20px_rgba(0,240,255,0.4)] animate-pulse">
                 ADMIN : eta_c4
             </div>
         </div>
 
     </main>
 
-    <!-- 푸터 -->
+    <!-- 푸터 영역 -->
     <footer class="max-w-4xl mx-auto px-4 mt-20 text-center text-gray-500 text-xs space-y-2 border-t border-arcade-border pt-8 relative z-10">
         <p>© 2026 서울 [SEOUL] DISCORD COMMUNITY. ALL RIGHTS RESERVED.</p>
         <p class="text-arcade-purple font-mono">OFFICIAL ARCADE SYSTEM FOR SEOUL SERVER</p>
